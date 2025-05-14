@@ -6,6 +6,7 @@ import { MdBookmarkAdd, MdMoreVert } from "react-icons/md";
 import { addBookToCollection } from "../utils/collectionSlice";
 import toast from "react-hot-toast";
 import { deleteCustomBook } from "../utils/bookSlice";
+import { paths } from "../constant/menuItems";
 
 const BooksCard = ({ book }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -208,6 +209,12 @@ const BooksCard = ({ book }) => {
               >
                 Cancel
               </button>
+              <Link
+                to={paths.collectionview}
+                className="px-4 py-1 bg-black text-white hover:bg-gray-800 cursor-pointer"
+              >
+                Make new Collcection
+              </Link>
               <button
                 onClick={handleAddToCollections}
                 className="px-4 py-1 bg-black text-white hover:bg-gray-800 cursor-pointer"
