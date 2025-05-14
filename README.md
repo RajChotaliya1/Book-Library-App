@@ -17,12 +17,12 @@ A modern and responsive Book Library App built with *React + Vite* that allows u
 
 ## 🛠 Tech Stack
 
-- *React* (with Vite)
-- *Redux Toolkit*
-- *React Router*
-- *Tailwind CSS*
-- *Framer Motion*
-- *RESTful Book API*
+- **React** (with Vite)
+- **Redux Toolkit**
+- **React Router**
+- **Tailwind CSS**
+- **Framer Motion**
+- **RESTful Book API**
 
 ---
 
