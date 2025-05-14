@@ -176,7 +176,7 @@ const BooksCard = ({ book }) => {
             <div className="flex flex-row justify-between items-center mb-4">
               <h3
                 id="collection-modal-title"
-                className="text-lg font-semibold"
+                className="text-lg sm:text-xl font-semibold"
               >
                 Add to collections
               </h3>
@@ -188,7 +188,7 @@ const BooksCard = ({ book }) => {
               </Link>
             </div>
             {collections.length === 0 ? (
-              <p className="text-gray-800 text-sm italic mb-6">
+              <p className="text-gray-800 text-sm sm:text-md italic mb-6">
                 No collections available.
               </p>
             ) : (
