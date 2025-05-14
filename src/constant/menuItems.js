@@ -3,7 +3,7 @@ export const menuItems = [
   { label: "Browse Books", path: "/browsebooks" },
   { label: "Add Books", path: "/addbooks" },
   { label: "Collection View", path: "/collectionview" },
-  {label:"Profile" , path:"/profile"}
+  { label: "Profile", path: "/profile" },
 ];
 
 export const paths = {
@@ -13,6 +13,6 @@ export const paths = {
   collectionview: "/collectionview",
   login: "/login",
   signup: "/signup",
-  profile:"/profile",
+  profile: "/profile",
   error: "*",
 };

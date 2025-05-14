@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import { paths } from "../../constant/menuItems";
 
 const PrivateRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -37,7 +38,7 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  return session ? children : <Navigate to="/login" />;
+  return session ? children : <Navigate to={paths.login} />;
 };
 
 export default PrivateRoute;

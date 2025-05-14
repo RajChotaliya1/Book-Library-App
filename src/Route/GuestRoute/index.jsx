@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import { paths } from "../../constant/menuItems";
 
 const GuestRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ const GuestRoute = ({ children }) => {
       </div>
     );
 
-  return session ? <Navigate to="/" /> : children;
+  return session ? <Navigate to={paths.home} /> : children;
 };
 
 export default GuestRoute;
