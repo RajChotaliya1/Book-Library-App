@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "../../constant/menuItems";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { CgProfile } from "react-icons/cg";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -59,7 +60,7 @@ const Profile = () => {
         transition={{ duration: 0.5 }}
       >
         <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-gray-800 text-center">
-          Profile
+         <CgProfile className="inline w-7 h-7 mb-1" /> Profile
         </h2>
         <div className="space-y-3 text-gray-700 break-words">
           <p>
