@@ -173,12 +173,17 @@ const BooksCard = ({ book }) => {
             onClick={(e) => e.stopPropagation()}
             className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
           >
-            <h3
-              id="collection-modal-title"
-              className="text-xl font-semibold mb-4"
-            >
-              Add to collections
-            </h3>
+            <div className="flex flex-row justify-between items-center mb-4">
+              <h3 id="collection-modal-title" className="text-xl font-semibold">
+                Add to collections
+              </h3>
+              <Link
+                to={paths.collectionview}
+                className="px-3 py-1 text-sm bg-black text-white hover:bg-gray-800 cursor-pointer"
+              >
+                Make new Collcection
+              </Link>
+            </div>
             {collections.length === 0 ? (
               <p className="text-gray-800 italic mb-6">
                 No collections available.
@@ -209,12 +214,7 @@ const BooksCard = ({ book }) => {
               >
                 Cancel
               </button>
-              <Link
-                to={paths.collectionview}
-                className="px-4 py-1 bg-black text-white hover:bg-gray-800 cursor-pointer"
-              >
-                Make new Collcection
-              </Link>
+
               <button
                 onClick={handleAddToCollections}
                 className="px-4 py-1 bg-black text-white hover:bg-gray-800 cursor-pointer"
