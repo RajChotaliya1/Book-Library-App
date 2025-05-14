@@ -38,7 +38,7 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="flex flex-col items-center justify-center w-full h-screen bg-white text-black px-4">
+      <div className="flex flex-col items-center justify-center w-full h-full bg-white text-black px-4">
         <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin mb-4"></div>
         <span className="text-lg font-medium">Loading...</span>
       </div>
