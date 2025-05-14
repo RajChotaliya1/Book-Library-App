@@ -65,7 +65,7 @@ const AuthLayout = () => {
 
           {/* Right side - Auth form */}
           <motion.div
-            className="w-full p-3 sm:p-10 flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-teal-50"
+            className="w-full p-4 sm:p-10 flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-teal-50"
             variants={childVariants}
           >
             <motion.div
