@@ -58,7 +58,7 @@ const Profile = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-2xl sm:text-3xl font-bold mb-10 text-gray-800 text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-gray-800 text-center">
           Profile
         </h2>
         <div className="space-y-3 text-gray-700 break-words">
