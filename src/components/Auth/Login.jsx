@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
 import { paths } from "../../constant/menuItems";
 import toast from "react-hot-toast";
-import { MdEmail, MdLock } from "react-icons/md";
+import { MdEmail, MdLock, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { motion } from "framer-motion";
 
 const loginSchema = Joi.object({
@@ -23,6 +23,8 @@ const loginSchema = Joi.object({
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordTyped, setIsPasswordTyped] = useState(false);
 
   const {
     register,
@@ -100,11 +102,20 @@ const Login = () => {
         >
           <MdLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             {...register("password")}
-            className="w-full pl-10 pr-2 py-2 border border-gray-300 rounded-md transition text-sm sm:text-base"
+            onChange={(e) => setIsPasswordTyped(!!e.target.value)} // ✅ Track typing
+            className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md transition text-sm sm:text-base"
           />
+          {isPasswordTyped && ( 
+            <div
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+            </div>
+          )}
         </motion.div>
         {errors.password && (
           <p className="text-red-500 text-xs sm:text-sm mt-1">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
 import { paths } from "../../constant/menuItems";
 import toast from "react-hot-toast";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaEyeSlash, FaEye } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const signupSchema = Joi.object({
@@ -38,6 +38,10 @@ const signupSchema = Joi.object({
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordValue, setPasswordValue] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
 
   const {
     register,
@@ -142,11 +146,20 @@ const Signup = () => {
             <div className="flex items-center relative">
               <FaLock className="absolute left-3 text-gray-400 text-sm sm:text-base" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 {...register("password")}
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                onChange={(e) => setPasswordValue(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
               />
+              {passwordValue && (
+                <span
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 text-gray-400 cursor-pointer"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              )}
             </div>
             {errors.password && (
               <p className="text-red-500 text-xs sm:text-sm mt-1">
@@ -164,11 +177,20 @@ const Signup = () => {
             <div className="flex items-center relative">
               <FaLock className="absolute left-3 text-gray-400 text-sm sm:text-base" />
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm Password"
                 {...register("confirmPassword")}
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                onChange={(e) => setConfirmPasswordValue(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
               />
+              {confirmPasswordValue && (
+                <span
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  className="absolute right-3 text-gray-400 cursor-pointer"
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              )}
             </div>
             {errors.confirmPassword && (
               <p className="text-red-500 text-xs sm:text-sm mt-1">
