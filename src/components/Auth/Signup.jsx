@@ -38,21 +38,39 @@ const signupSchema = Joi.object({
 
 const Signup = () => {
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [passwordValue, setPasswordValue] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setError,
   } = useForm({
     resolver: joiResolver(signupSchema),
   });
 
   const onSubmit = async (data) => {
+    setLoading(true);
+    const { email, password } = data;
+
+    const { data: existingUser, error: checkError } = await supabase
+      .from("users")
+      .select("email")
+      .eq("email", email)
+      .single();
+
+    if (checkError === null && existingUser) {
+      setError("email", { message: "Email is already registered." });
+      toast.error("Email is already registered.");
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
@@ -62,24 +80,19 @@ const Signup = () => {
     });
 
     if (error) {
-      console.log("Signup error:", error);
-
-      const errMsg = error.message.toLowerCase();
-
-      if (
-        errMsg.includes("already registered") ||
-        errMsg.includes("duplicate") ||
-        errMsg.includes("exists") ||
-        errMsg.includes("user already exists")
-      ) {
-        toast.error("This email is already registered. Please log in.");
-      } else {
-        toast.error(error.message || "Signup failed");
-      }
-      setError("root", { message: error.message });
+      const errorMessage =
+        error.message === "User already registered"
+          ? "This email is already registered. Please log in instead."
+          : error.message;
+      setError("root", { message: errorMessage });
+      toast.error(errorMessage || "Signup failed");
+      setLoading(false);
     } else {
       toast.success("Signup successful! Please check your email.");
-      setTimeout(() => navigate(paths.login), 1500);
+      setTimeout(() => {
+        setLoading(false);
+        navigate(paths.login);
+      }, 1500);
     }
   };
 
@@ -127,7 +140,6 @@ const Signup = () => {
               </p>
             )}
           </motion.div>
-
           <motion.div
             className="mb-3 sm:mb-4"
             initial={{ opacity: 0 }}
@@ -149,7 +161,6 @@ const Signup = () => {
               </p>
             )}
           </motion.div>
-
           <motion.div
             className="mb-3 sm:mb-4"
             initial={{ opacity: 0 }}
@@ -180,7 +191,6 @@ const Signup = () => {
               </p>
             )}
           </motion.div>
-
           <motion.div
             className="mb-3 sm:mb-4"
             initial={{ opacity: 0 }}
@@ -211,18 +221,18 @@ const Signup = () => {
               </p>
             )}
           </motion.div>
-
           <motion.button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-full text-sm sm:text-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 sm:py-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md cursor-pointer active:scale-98 ${
-              isSubmitting ? "opacity-60 cursor-not-allowed" : ""
+            disabled={loading}
+            className={`w-full font-semibold text-white py-2 sm:py-3 mt-2 rounded-lg transition-all cursor-pointer ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 sm:py-3 rounded-lg"
             }`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            whileTap={!loading ? { scale: 0.95 } : {}}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            {isSubmitting ? "Creating Account..." : "Create an Account"}
+            {loading ? "Creating Acoount..." : "Create an Account..."}
           </motion.button>
 
           <motion.div
