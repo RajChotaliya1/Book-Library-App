@@ -224,13 +224,15 @@ const Signup = () => {
           <motion.button
             type="submit"
             disabled={loading}
-            className={`w-full font-semibold text-white py-2 sm:py-3 mt-2 rounded-lg transition-all cursor-pointer ${
+            className={`w-full font-semibold text-white py-2 sm:py-3 mt-2 rounded-lg transition-all ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 sm:py-3 rounded-lg"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 sm:py-3 rounded-lg cursor-pointer"
             }`}
             whileTap={!loading ? { scale: 0.95 } : {}}
-            transition={{ type: "spring", stiffness: 300 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
           >
             {loading ? "Creating Acoount..." : "Create an Account..."}
           </motion.button>
