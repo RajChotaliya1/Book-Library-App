@@ -19,16 +19,16 @@ const signupSchema = Joi.object({
     "string.empty": "Email is required.",
   }),
   password: Joi.string()
-    .pattern(
-      new RegExp(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=[\\]{};:'\",.<>/?]).{8,}$"
-      )
-    )
+    .min(6)
+    .pattern(/[a-z]/, "lowercase letter")
+    .pattern(/[A-Z]/, "uppercase letter")
+    .pattern(/\d/, "number")
+    .pattern(/[!@#$%^&*()_+\-=[\]{};:'",.<>/?]/, "special character")
     .required()
     .messages({
-      "string.pattern.base":
-        "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.",
       "string.empty": "Password is required.",
+      "string.min": "Password must be at least 6 characters.",
+      "string.pattern.name": "Password must include at least one {#name}.",
     }),
   confirmPassword: Joi.any().valid(Joi.ref("password")).required().messages({
     "any.only": "Passwords do not match.",
@@ -46,7 +46,7 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setError,
   } = useForm({
     resolver: joiResolver(signupSchema),
@@ -62,8 +62,21 @@ const Signup = () => {
     });
 
     if (error) {
+      console.log("Signup error:", error);
+
+      const errMsg = error.message.toLowerCase();
+
+      if (
+        errMsg.includes("already registered") ||
+        errMsg.includes("duplicate") ||
+        errMsg.includes("exists") ||
+        errMsg.includes("user already exists")
+      ) {
+        toast.error("This email is already registered. Please log in.");
+      } else {
+        toast.error(error.message || "Signup failed");
+      }
       setError("root", { message: error.message });
-      toast.error(error.message || "Signup failed");
     } else {
       toast.success("Signup successful! Please check your email.");
       setTimeout(() => navigate(paths.login), 1500);
@@ -201,12 +214,15 @@ const Signup = () => {
 
           <motion.button
             type="submit"
-            className="w-full text-sm sm:text-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 sm:py-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md cursor-pointer active:scale-98"
+            disabled={isSubmitting}
+            className={`w-full text-sm sm:text-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 sm:py-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md cursor-pointer active:scale-98 ${
+              isSubmitting ? "opacity-60 cursor-not-allowed" : ""
+            }`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            Create an Account
+            {isSubmitting ? "Creating Account..." : "Create an Account"}
           </motion.button>
 
           <motion.div
